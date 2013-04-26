@@ -7,6 +7,7 @@ public class Cul {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Ouaf! Ouaf!");
+		
 	}
 
 }
