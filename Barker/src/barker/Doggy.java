@@ -10,9 +10,7 @@ public interface Doggy extends Remote {
 	
 	List<Bark> getBarks () throws RemoteException;
 	
-	List<String> getSniffers () throws RemoteException;
-	
-	List<String> getSniffeds () throws RemoteException;
+	List<String> getSniffed () throws RemoteException;
 	
 	void sniff (String doggy) throws RemoteException;
 }
