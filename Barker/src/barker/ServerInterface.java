@@ -7,5 +7,5 @@ public interface ServerInterface extends Remote {
 
 	public void register(String login, String mdp) throws RemoteException;
 	
-	public Doggy connect(String login, String mdp);
+	public Doggy connect(String login, String mdp) throws RemoteException;
 }

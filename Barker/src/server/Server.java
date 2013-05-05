@@ -11,7 +11,7 @@ import java.util.List;
 
 import barker.Doggy;
 
-public class Server extends UnicastRemoteObject /*implements ServerInterface*/ {
+public class Server extends UnicastRemoteObject implements ServerInterface {
 	
 	private HashMap<String, String> loginMdp;
 	private HashMap<String, Doggy> loginDoggy;
@@ -28,14 +28,14 @@ public class Server extends UnicastRemoteObject /*implements ServerInterface*/ {
 		sniffers = new HashMap<String, List<String>>();
 	}
 	
-	//@Override
+	@Override
 	public void register(String login, String mdp) throws RemoteException {
 		loginMdp.put(login, mdp);
 		loginDoggy.put(login, new Dog(login, this));
 	}
 	
-	//@Override
-	public Doggy connect(String login, String mdp) {
+	@Override
+	public Doggy connect(String login, String mdp) throws RemoteException {
 		if (mdp.equals(loginMdp.get(login))) {
 			return loginDoggy.get(login);
 		}
