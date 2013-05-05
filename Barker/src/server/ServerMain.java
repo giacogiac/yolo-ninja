@@ -4,7 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-public class Main {
+public class ServerMain {
 
 	static public void main(String[] args) {
 		//String address = "url:port";
