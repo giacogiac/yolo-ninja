@@ -4,7 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public interface Doggy extends Remote {
+public interface Dog extends Remote {
 	
 	void sendBark (Bark b) throws RemoteException;
 	

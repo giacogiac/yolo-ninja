@@ -1,6 +1,8 @@
 package server;
 
 import java.rmi.RemoteException;
+import java.rmi.server.RMIClientSocketFactory;
+import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
 
 import javax.security.auth.login.LoginContext;
@@ -11,8 +13,15 @@ import barker.ConnectionServer;
 public class ConnectionServerImpl extends UnicastRemoteObject implements ConnectionServer {
 	private static final long serialVersionUID = -3634531286982118660L;
 	
-	protected ConnectionServerImpl() throws RemoteException {
-		super();
+	private RMIClientSocketFactory clientFactory;
+	private RMIServerSocketFactory serverFactory;
+	private int port;
+	
+	protected ConnectionServerImpl(int port, RMIClientSocketFactory clientFactory, RMIServerSocketFactory serverFactory) throws RemoteException {
+		super (port, clientFactory, serverFactory );
+		this.clientFactory = clientFactory;
+		this.serverFactory = serverFactory;
+		this.port= port;
 	}
 	
 	@Override
@@ -20,13 +29,12 @@ public class ConnectionServerImpl extends UnicastRemoteObject implements Connect
 		LoginContext lc = new LoginContext("BarkerServer", new security.module.RemoteCallbackHandler(username, passwd));
 		try{
 			lc.login();
-			System.out.println("Authentifié le sujet "+ lc.getSubject());
 		}
 		catch (LoginException e){
 			System.out.println("Recu "+ username + " et " + passwd + " mais, après vérif, ils sont incorrects");
 			throw e;
 		}
-		return new BarkerServerImpl(lc.getSubject());
+		return new BarkerServerImpl(lc.getSubject(), port, clientFactory, serverFactory);
 	}
 
 }

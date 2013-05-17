@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.rmi.server.RMIClientSocketFactory;
+import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
@@ -16,47 +18,21 @@ import java.util.List;
 
 import javax.security.auth.Subject;
 
-import barker.Doggy;
+import barker.Dog;
 
 public class BarkerServerImpl extends UnicastRemoteObject implements BarkerServer {
 	private static final long serialVersionUID = -7666130486088047448L;
 	
-	private static HashMap<String, String> loginMdp = new HashMap<String, String>();
-	private static HashMap<String, Doggy> loginDoggy = new HashMap<String, Doggy>();
-	private static HashMap<String, List<String>> sniffers = new HashMap<String, List<String>>();
-	private static List<Bark> barks = new ArrayList<Bark>();
-	
 	private Subject subject;
-
-	
 
 	protected BarkerServerImpl(Subject subject) throws RemoteException {
 		super();
 		this.subject = subject;
 	}
 	
-	public void register(String login, String mdp) throws RemoteException {
-		loginMdp.put(login, mdp);
-		loginDoggy.put(login, new Dog(login, this));
-	}
-	
-	public Doggy connect(String login, String mdp) throws RemoteException {
-		if (mdp.equals(loginMdp.get(login))) {
-			return loginDoggy.get(login);
-		}
-		return null;
-	}
-
-	public List<Bark> getBarks() {
-		return barks;
-	}
-	
-	public List<String> getSniffers(String login) {
-		return	sniffers.get(login);
-	}
-	
-	public HashMap<String, List<String>> getSniffers() {
-		return sniffers;
+	public BarkerServerImpl(Subject subject, int port, RMIClientSocketFactory clientFactory, RMIServerSocketFactory serverFactory) throws RemoteException {
+		super(port,clientFactory,serverFactory);
+		this.subject = subject;
 	}
 	
 	public synchronized int setVal(final int v)

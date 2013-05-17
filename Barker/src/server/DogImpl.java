@@ -6,25 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import barker.Bark;
-import barker.Doggy;
+import barker.Dog;
 
-public class Dog extends UnicastRemoteObject implements Doggy {
+public class DogImpl extends UnicastRemoteObject implements Dog {
 	private static final long serialVersionUID = -5065478789716075630L;
 	
 	private List<String> sniffed;
 	private String login;
 	private BarkerServerImpl barkerServer;
 	
-	protected Dog(String login, BarkerServerImpl server) throws RemoteException {
+	protected DogImpl(String login, BarkerServerImpl server) throws RemoteException {
 		super();
 		this.login = login;
 		this.barkerServer = server;
-		barkerServer.getSniffers().put(login, new ArrayList<String>());
+		
 	}
 	
 	@Override
 	public void sendBark(Bark b) throws RemoteException {
-		barkerServer.getBarks().add(b);
+		
 
 	}
 
@@ -39,11 +39,7 @@ public class Dog extends UnicastRemoteObject implements Doggy {
 	@Override
 	public List<Bark> getBarks() throws RemoteException {
 		List<Bark> barks = new ArrayList<Bark>();
-		for (Bark b : barkerServer.getBarks()) {
-			if (b.getSender().equals(this.getLogin())) {
-				barks.add(b);
-			}
-		}
+		
 		return barks;
 	}
 
@@ -55,7 +51,7 @@ public class Dog extends UnicastRemoteObject implements Doggy {
 	@Override
 	public void sniff(String doggy) throws RemoteException {
 		sniffed.add(doggy);
-		barkerServer.getSniffers(doggy).add(this.getLogin());
+		
 	}
 
 }
