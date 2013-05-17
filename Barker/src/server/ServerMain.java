@@ -4,16 +4,24 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import barker.ConnectionServer;
+
 public class ServerMain {
 
 	static public void main(String[] args) {
-		//String address = "url:port";
-		//System.setProperty("java.rmi.server.codebase",address);
+		System.out.println("Lancement Serveur Barker...");
+		
+		System.setProperty("java.security.auth.login.config", "login.conf");
+		
+		if (System.getSecurityManager() == null) { 
+			System.setSecurityManager(new java.rmi.RMISecurityManager()); 
+		}
+		
 		try {
 			Registry reg = LocateRegistry.createRegistry(2001);
-			Server barkerServer = new Server();
-			reg.rebind("BARKER", barkerServer);
-			System.out.println("Lancement Serveur Barker...");
+			ConnectionServer conserver = new ConnectionServerImpl();
+			reg.rebind("Server", conserver);
+			System.out.println("Serveur en cours ...");
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

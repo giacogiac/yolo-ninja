@@ -1,7 +1,7 @@
 package server;
 
 import barker.Bark;
-import barker.ServerInterface;
+import barker.BarkerServer;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -11,7 +11,7 @@ import java.util.List;
 
 import barker.Doggy;
 
-public class Server extends UnicastRemoteObject implements ServerInterface {
+public class BarkerServerImpl extends UnicastRemoteObject implements BarkerServer {
 	
 	private HashMap<String, String> loginMdp;
 	private HashMap<String, Doggy> loginDoggy;
@@ -20,7 +20,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
 	private static final long serialVersionUID = -7666130486088047448L;
 
-	protected Server() throws RemoteException {
+	protected BarkerServerImpl() throws RemoteException {
 		super();
 		loginMdp = new HashMap<String, String>();
 		loginDoggy = new HashMap<String, Doggy>();
@@ -28,13 +28,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 		sniffers = new HashMap<String, List<String>>();
 	}
 	
-	@Override
 	public void register(String login, String mdp) throws RemoteException {
 		loginMdp.put(login, mdp);
 		loginDoggy.put(login, new Dog(login, this));
 	}
 	
-	@Override
 	public Doggy connect(String login, String mdp) throws RemoteException {
 		if (mdp.equals(loginMdp.get(login))) {
 			return loginDoggy.get(login);

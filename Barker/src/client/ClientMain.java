@@ -5,37 +5,41 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import javax.swing.JWindow;
-import javax.swing.SwingUtilities;
+import javax.security.auth.login.LoginException;
 
-import barker.Doggy;
-import barker.ServerInterface;
-
+import barker.BarkerServer;
+import barker.ConnectionServer;
 
 public class ClientMain {
+	static final String SERVER = "127.0.0.1";
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable(){
-			public void run(){
-				MainWindow window = new MainWindow("Barker");
-				window.setVisible(true);//On la rend visible
-			}
-		});
+		System.out.println("Lancement Client...");
 		
-		
-		//connection au serveur Barker
-		try {
-			String serveurURl = "192.168.1.87";
-			System.out.println("Debut... " + Thread.currentThread().getName());
-			Registry reg = LocateRegistry.getRegistry(serveurURl,2001);
-			ServerInterface serv = (ServerInterface) reg.lookup("BARKER");
-			// connection ou inscription
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
+		System.setProperty("java.rmi.server.hostname", SERVER);
+		if (System.getSecurityManager() == null) { 
+			System.setSecurityManager(new java.rmi.RMISecurityManager()); 
 		}
 		
+		ConnectionServer conserver = null;
+		try {
+			Registry reg = LocateRegistry.getRegistry(SERVER,2001);
+			conserver = (ConnectionServer) reg.lookup("Server");
+		} catch (RemoteException | NotBoundException e) {
+			e.printStackTrace();
+			return;
+		}
+		
+		BarkerServer bserver = null;
+		try {
+			bserver=conserver.logon("test", "test");
+			System.out.println("On a recu une ref vers serveur distant, et on a été authentifié ");
+		} catch (RemoteException | LoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		System.out.println("Fin Client");
 	}
 
 }

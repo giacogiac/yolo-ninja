@@ -12,9 +12,9 @@ public class Dog extends UnicastRemoteObject implements Doggy {
 
 	private List<String> sniffed;
 	private String login;
-	private Server barkerServer;
+	private BarkerServerImpl barkerServer;
 	
-	protected Dog(String login, Server server) throws RemoteException {
+	protected Dog(String login, BarkerServerImpl server) throws RemoteException {
 		super();
 		this.login = login;
 		this.barkerServer = server;
