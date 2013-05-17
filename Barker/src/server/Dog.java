@@ -9,7 +9,8 @@ import barker.Bark;
 import barker.Doggy;
 
 public class Dog extends UnicastRemoteObject implements Doggy {
-
+	private static final long serialVersionUID = -5065478789716075630L;
+	
 	private List<String> sniffed;
 	private String login;
 	private BarkerServerImpl barkerServer;

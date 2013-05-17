@@ -11,12 +11,12 @@ import barker.BarkerServer;
 import barker.ConnectionServer;
 
 public class ClientMain {
-	static final String SERVER = "127.0.0.1";
+	public static final String SERVER = "127.0.0.1";
 
 	public static void main(String[] args) {
 		System.out.println("Lancement Client...");
-		
-		System.setProperty("java.rmi.server.hostname", SERVER);
+
+		System.setProperty("java.security.policy", "policy.conf");
 		if (System.getSecurityManager() == null) { 
 			System.setSecurityManager(new java.rmi.RMISecurityManager()); 
 		}
@@ -32,10 +32,10 @@ public class ClientMain {
 		
 		BarkerServer bserver = null;
 		try {
-			bserver=conserver.logon("test", "test");
+			bserver = conserver.logon("adminUser", "testPassword");
 			System.out.println("On a recu une ref vers serveur distant, et on a été authentifié ");
+			System.out.println(bserver.setVal(5));
 		} catch (RemoteException | LoginException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		

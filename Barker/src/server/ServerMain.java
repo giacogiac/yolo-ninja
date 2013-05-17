@@ -7,12 +7,13 @@ import java.rmi.registry.Registry;
 import barker.ConnectionServer;
 
 public class ServerMain {
+	public static final String HOST = "157.169.103.27";
 
 	static public void main(String[] args) {
 		System.out.println("Lancement Serveur Barker...");
 		
+		System.setProperty("java.security.policy", "serverpolicy.conf");
 		System.setProperty("java.security.auth.login.config", "login.conf");
-		
 		if (System.getSecurityManager() == null) { 
 			System.setSecurityManager(new java.rmi.RMISecurityManager()); 
 		}

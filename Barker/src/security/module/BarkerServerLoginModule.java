@@ -62,7 +62,7 @@ import javax.security.auth.spi.*;
  *
  * @version 1.18, 01/11/00
  */
-public class SimpleMonServeurLoginModule implements LoginModule {
+public class BarkerServerLoginModule implements LoginModule {
 
     // initial state
     private Subject subject;
@@ -176,7 +176,7 @@ public class SimpleMonServeurLoginModule implements LoginModule {
 	// verify the username/password
 	boolean usernameCorrect = false;
 	boolean passwordCorrect = false;
-	if (username.equals("testUser"))
+	if (username.equals("testUser") || username.equals("adminUser"))
 	    usernameCorrect = true;
 	if (usernameCorrect &&
 	    password.length == 12 &&
