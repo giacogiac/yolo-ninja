@@ -4,6 +4,10 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import javax.security.auth.login.LoginException;
+
+import security.module.BarkerServerLoginModule;
+
 import barker.ConnectionServer;
 
 public class ServerMain {
@@ -16,6 +20,13 @@ public class ServerMain {
 		System.setProperty("java.security.auth.login.config", "login.conf");
 		if (System.getSecurityManager() == null) { 
 			System.setSecurityManager(new java.rmi.RMISecurityManager()); 
+		}
+		
+		try {
+			BarkerServerLoginModule.addUser("babouchot", "passw");
+			BarkerServerLoginModule.addUser("giaco", "gpassw");
+		} catch (LoginException e) {
+			e.printStackTrace();
 		}
 		
 		try {

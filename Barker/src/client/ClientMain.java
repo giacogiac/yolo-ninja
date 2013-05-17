@@ -32,11 +32,10 @@ public class ClientMain {
 		
 		BarkerServer bserver = null;
 		try {
-			bserver = conserver.logon("adminUser", "testPassword");
+			bserver = conserver.logon("babouchot", "passwe");
 			System.out.println("On a recu une ref vers serveur distant, et on a été authentifié ");
-			System.out.println(bserver.setVal(5));
 		} catch (RemoteException | LoginException e) {
-			e.printStackTrace();
+			System.out.println("Connexion impossible: " + e.getMessage());
 		} 
 		
 		System.out.println("Fin Client");

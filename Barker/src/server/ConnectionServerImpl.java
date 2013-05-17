@@ -17,9 +17,6 @@ public class ConnectionServerImpl extends UnicastRemoteObject implements Connect
 	
 	@Override
 	public BarkerServerImpl logon(String username, String passwd) throws RemoteException, LoginException {
-		// Verifier si l'utilisateur a bien donné un login et passwd egaux à testUser et testPasswd
-		// Si non, renvoyer une instance de LoginException 
-		
 		LoginContext lc = new LoginContext("BarkerServer", new security.module.RemoteCallbackHandler(username, passwd));
 		try{
 			lc.login();

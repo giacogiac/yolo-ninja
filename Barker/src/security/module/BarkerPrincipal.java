@@ -1,23 +1,25 @@
 package security.module;
 
-public class SamplePrincipal implements java.security.Principal, java.io.Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	String name=null;
+public class BarkerPrincipal implements java.security.Principal, java.io.Serializable {
+	private static final long serialVersionUID = -3116013246267886494L;
 	
-	public SamplePrincipal(String name){
+	private String name;
+	
+	public BarkerPrincipal(String name){
 		this.name=name;
 	}
+	
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return name;
 	}
+	
+	@Override
 	public String toString(){
 		return "ce principal a ce nom "+ name;
 	}
+	
+	@Override
 	public boolean equals(Object o) {
 		if (o == null)
 			return false;
@@ -25,16 +27,16 @@ public class SamplePrincipal implements java.security.Principal, java.io.Seriali
 		if (this == o)
 			return true;
 
-		if (!(o instanceof SamplePrincipal))
+		if (!(o instanceof BarkerPrincipal))
 			return false;
-		SamplePrincipal that = (SamplePrincipal)o;
+		BarkerPrincipal that = (BarkerPrincipal)o;
 
 		if (this.getName().equals(that.getName()))
 			return true;
 		return false;
 	}
 
-
+	@Override
 	public int hashCode() {
 		return name.hashCode();
 	}
