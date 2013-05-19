@@ -16,7 +16,7 @@ public class BarkerPrincipal implements java.security.Principal, java.io.Seriali
 	
 	@Override
 	public String toString(){
-		return "ce principal a ce nom "+ name;
+		return name;
 	}
 	
 	@Override

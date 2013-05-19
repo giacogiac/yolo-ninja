@@ -1,5 +1,6 @@
 package security.module;
 
+import java.io.IOException;
 import java.util.*;
 
 import javax.security.auth.*;
@@ -13,8 +14,10 @@ public class BarkerServerLoginModule implements LoginModule {
     // initial state
     private Subject subject;
     private CallbackHandler callbackHandler;
-    private Map sharedState;
-    private Map options;
+	@SuppressWarnings("unused")
+    private Map<String, ?> sharedState;
+	@SuppressWarnings("unused")
+    private Map<String, ?> options;
 
     // configurable option
     private boolean debug = false;
@@ -27,12 +30,11 @@ public class BarkerServerLoginModule implements LoginModule {
     private String username;
     private String password;
 
-    // testUser's SamplePrincipal
-    //To Improve
+    // User's SamplePrincipal
     private BarkerPrincipal userPrincipal;
 
     @Override
-	public void initialize(Subject subject, CallbackHandler callbackHandler, Map sharedState, Map options) {
+	public void initialize(Subject subject, CallbackHandler callbackHandler, Map<String, ?> sharedState, Map<String, ?> options) {
 		this.subject = subject;
 		this.callbackHandler = callbackHandler;
 		this.sharedState = sharedState;
@@ -44,7 +46,9 @@ public class BarkerServerLoginModule implements LoginModule {
     
     @Override
 	public boolean login() throws LoginException {
-		System.out.println("Le LoginModule est en train de vérifier un Login");
+    	if (debug) {
+    		System.out.println("Le LoginModule est en train de vérifier un Login");
+    	}
 		
 		// prompt for a user name and password
 		if (callbackHandler == null)
@@ -52,26 +56,27 @@ public class BarkerServerLoginModule implements LoginModule {
 					+ "to garner authentication information from the user");
 
 		Callback[] callbacks = new Callback[2];
-		callbacks[0] = new NameCallback("user name: ");
+		callbacks[0] = new NameCallback("username: ");
 		callbacks[1] = new PasswordCallback("password: ", false);
 		
 		try {
 			callbackHandler.handle(callbacks);
-			username = ((NameCallback) callbacks[0]).getName().toLowerCase();
-			char[] tmpPassword = ((PasswordCallback) callbacks[1]).getPassword();
-			if (tmpPassword == null) {
-				// treat a NULL password as an empty password
-				tmpPassword = new char[0];
-			}
-			password = new String(tmpPassword);
-			((PasswordCallback) callbacks[1]).clearPassword();
-		} catch (java.io.IOException ioe) {
+		} catch (IOException ioe) {
 			throw new LoginException(ioe.toString());
 		} catch (UnsupportedCallbackException uce) {
 			throw new LoginException("Error: " + uce.getCallback().toString()
 					+ " not available to garner authentication information "
 					+ "from the user");
 		}
+		
+		username = ((NameCallback) callbacks[0]).getName().toLowerCase();
+		char[] tmpPassword = ((PasswordCallback) callbacks[1]).getPassword();
+        if (tmpPassword == null) {
+            // treat a NULL password as an empty password
+            tmpPassword = new char[0];
+        }
+        password = new String(tmpPassword);
+        ((PasswordCallback) callbacks[1]).clearPassword();
 
 		// print debugging information
 		if (debug) {
@@ -84,17 +89,15 @@ public class BarkerServerLoginModule implements LoginModule {
 
 		// verify the username/password
 		boolean usernameCorrect = false;
-		boolean passwordCorrect = false;
 		if (loginPw.containsKey(username))
 			usernameCorrect = true;
 		if (usernameCorrect && password.equals(loginPw.get(username))) {
 			// authentication succeeded!!!
-			passwordCorrect = true;
 			if (debug)
 				System.out.println("\t\t[SimpleMonServeurLoginModule] "
 						+ "authentication succeeded");
 			succeeded = true;
-			return true;
+			return succeeded;
 		} else {
 			// authentication failed -- clean out state
 			if (debug)

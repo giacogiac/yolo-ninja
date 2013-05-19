@@ -18,25 +18,27 @@ public class ServerMain {
 	static public void main(String[] args) {
 		System.out.println("Lancement Serveur Barker...");
 		
+		// sécurité
 		System.setProperty("javax.net.ssl.keyStore", "barker.ks");
 		System.setProperty("javax.net.ssl.keyStorePassword", "azerty");
-		System.setProperty("java.security.policy", "serverpolicy.conf");
+		System.setProperty("java.security.policy", "server.policy");
 		System.setProperty("java.security.auth.login.config", "login.conf");
 		if (System.getSecurityManager() == null) { 
 			System.setSecurityManager(new java.rmi.RMISecurityManager()); 
 		}
 		
+		//initialisation
 		try {
-			BarkerServerLoginModule.addUser("babouchot", "passw");
-			BarkerServerLoginModule.addUser("giaco", "gpassw");
+			BarkerServerAuthImpl.addUser("BabouChot", "passw");
+			BarkerServerAuthImpl.addUser("giaco", "gpassw");
 		} catch (LoginException e) {
 			e.printStackTrace();
 		}
 		
-		RMISSLServerSocketFactory sslServer = new RMISSLServerSocketFactory();
-		RMISSLClientSocketFactory sslClient = new RMISSLClientSocketFactory();
-		
+		// lancement
 		try {
+			RMISSLServerSocketFactory sslServer = new RMISSLServerSocketFactory();
+			RMISSLClientSocketFactory sslClient = new RMISSLClientSocketFactory();
 			Registry reg= LocateRegistry.createRegistry(2001, sslClient, sslServer);
 			ConnectionServer conserver = new ConnectionServerImpl(0, sslClient, sslServer);
 			reg.rebind("Server", conserver);

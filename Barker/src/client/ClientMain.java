@@ -9,7 +9,7 @@ import javax.security.auth.login.LoginException;
 
 import security.module.RMISSLClientSocketFactory;
 
-import barker.BarkerServer;
+import barker.BarkerServerAuth;
 import barker.ConnectionServer;
 
 public class ClientMain {
@@ -19,7 +19,7 @@ public class ClientMain {
 		System.out.println("Lancement Client...");
 
 		System.setProperty("javax.net.ssl.trustStore", "barker.ks");
-		System.setProperty("java.security.policy", "policy.conf");
+		System.setProperty("java.security.policy", "client.policy");
 		if (System.getSecurityManager() == null) { 
 			System.setSecurityManager(new java.rmi.RMISecurityManager()); 
 		}
@@ -34,12 +34,13 @@ public class ClientMain {
 			return;
 		}
 		
-		BarkerServer bserver = null;
+		BarkerServerAuth server = null;
 		try {
-			bserver = conserver.logon("Babouchot", "passw");
+			server = conserver.logon("babouchot", "passw");
 			System.out.println("On a recu une ref vers serveur distant, et on a été authentifié ");
 		} catch (RemoteException | LoginException e) {
 			System.out.println("Connexion impossible: " + e.getMessage());
+			e.printStackTrace();
 		} 
 		
 		System.out.println("Fin Client");

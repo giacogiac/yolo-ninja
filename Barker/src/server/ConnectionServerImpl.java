@@ -8,6 +8,10 @@ import java.rmi.server.UnicastRemoteObject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
+import security.module.RemoteCallbackHandler;
+
+import barker.BarkerServerAnon;
+import barker.BarkerServerAuth;
 import barker.ConnectionServer;
 
 public class ConnectionServerImpl extends UnicastRemoteObject implements ConnectionServer {
@@ -25,16 +29,20 @@ public class ConnectionServerImpl extends UnicastRemoteObject implements Connect
 	}
 	
 	@Override
-	public BarkerServerImpl logon(String username, String passwd) throws RemoteException, LoginException {
-		LoginContext lc = new LoginContext("BarkerServer", new security.module.RemoteCallbackHandler(username, passwd));
-		try{
-			lc.login();
-		}
-		catch (LoginException e){
-			System.out.println("Recu "+ username + " et " + passwd + " mais, après vérif, ils sont incorrects");
-			throw e;
-		}
-		return new BarkerServerImpl(lc.getSubject(), port, clientFactory, serverFactory);
+	public BarkerServerAuth logon(String username, String passwd) throws RemoteException, LoginException {
+		LoginContext lc = new LoginContext("BarkerServer", new RemoteCallbackHandler(username, passwd));
+		lc.login();
+		return new BarkerServerAuthImpl(lc, port, clientFactory, serverFactory);
 	}
+	
+	@Override
+	public BarkerServerAnon anon() throws RemoteException {
+		return new BarkerServerAnonImpl(port, clientFactory, serverFactory);
+	}
+	
+	@Override
+	public void addUser(String username, String password) throws LoginException, RemoteException {
+	    BarkerServer.addUser(username, password);
+    }
 
 }

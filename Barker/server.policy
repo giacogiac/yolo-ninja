@@ -1,0 +1,5 @@
+grant {
+    permission java.net.SocketPermission "localhost:1024-", "connect, accept, resolve";
+    permission javax.security.auth.AuthPermission "createLoginContext.BarkerServer";
+    permission javax.security.auth.AuthPermission "modifyPrincipals";
+};
