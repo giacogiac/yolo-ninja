@@ -14,6 +14,12 @@ public class ClientMain {
 	static final String SERVER = "127.0.0.1";
 
 	public static void main(String[] args) {
+		
+		LoginWindow window = new LoginWindow();
+		window.setVisible(true);
+		MainWindow mainWin = new MainWindow();
+		mainWin.setVisible(true);
+		
 		System.out.println("Lancement Client...");
 		
 		System.setProperty("java.rmi.server.hostname", SERVER);
@@ -33,7 +39,7 @@ public class ClientMain {
 		BarkerServer bserver = null;
 		try {
 			bserver=conserver.logon("test", "test");
-			System.out.println("On a recu une ref vers serveur distant, et on a été authentifié ");
+			System.out.println("On a recu une ref vers serveur distant, et on a ï¿½tï¿½ authentifiï¿½ ");
 		} catch (RemoteException | LoginException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
