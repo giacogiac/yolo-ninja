@@ -7,11 +7,13 @@ import java.rmi.registry.Registry;
 
 import javax.security.auth.login.LoginException;
 
-import barker.BarkerServer;
+import security.module.RMISSLClientSocketFactory;
+
+import barker.BarkerServerAuth;
 import barker.ConnectionServer;
 
 public class ClientMain {
-	static final String SERVER = "127.0.0.1";
+	public static final String SERVER = "127.0.0.1";
 
 	public static void main(String[] args) {
 		
@@ -21,27 +23,29 @@ public class ClientMain {
 		mainWin.setVisible(true);
 		
 		System.out.println("Lancement Client...");
-		
-		System.setProperty("java.rmi.server.hostname", SERVER);
+
+		System.setProperty("javax.net.ssl.trustStore", "barker.ks");
+		System.setProperty("java.security.policy", "client.policy");
 		if (System.getSecurityManager() == null) { 
 			System.setSecurityManager(new java.rmi.RMISecurityManager()); 
 		}
 		
 		ConnectionServer conserver = null;
 		try {
-			Registry reg = LocateRegistry.getRegistry(SERVER,2001);
+			RMISSLClientSocketFactory clientFactory = new RMISSLClientSocketFactory();
+			Registry reg= LocateRegistry.getRegistry(SERVER, 2001, clientFactory);
 			conserver = (ConnectionServer) reg.lookup("Server");
 		} catch (RemoteException | NotBoundException e) {
 			e.printStackTrace();
 			return;
 		}
 		
-		BarkerServer bserver = null;
+		BarkerServerAuth server = null;
 		try {
-			bserver=conserver.logon("test", "test");
+			server = conserver.logon("babouchot", "passw");
 			System.out.println("On a recu une ref vers serveur distant, et on a �t� authentifi� ");
 		} catch (RemoteException | LoginException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Connexion impossible: " + e.getMessage());
 			e.printStackTrace();
 		} 
 		

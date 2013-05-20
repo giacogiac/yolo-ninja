@@ -1,36 +1,48 @@
 package server;
 
 import java.rmi.RemoteException;
+import java.rmi.server.RMIClientSocketFactory;
+import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
 
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
+import security.module.RemoteCallbackHandler;
+
+import barker.BarkerServerAnon;
+import barker.BarkerServerAuth;
 import barker.ConnectionServer;
 
 public class ConnectionServerImpl extends UnicastRemoteObject implements ConnectionServer {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3634531286982118660L;
 	
-	private BarkerServerImpl bserver = new BarkerServerImpl();
+	private RMIClientSocketFactory clientFactory;
+	private RMIServerSocketFactory serverFactory;
+	private int port;
 	
-	protected ConnectionServerImpl() throws RemoteException {
-		super();
+	protected ConnectionServerImpl(int port, RMIClientSocketFactory clientFactory, RMIServerSocketFactory serverFactory) throws RemoteException {
+		super (port, clientFactory, serverFactory );
+		this.clientFactory = clientFactory;
+		this.serverFactory = serverFactory;
+		this.port= port;
 	}
 	
 	@Override
-	public BarkerServerImpl logon(String username, String passwd) throws RemoteException, LoginException {
-		// Verifier si l'utilisateur a bien donné un login et passwd egaux à testUser et testPasswd
-		// Si non, renvoyer une instance de LoginException 
-		
-		LoginContext lc = new LoginContext("MonServeur", new security.module.RemoteCallbackHandler(username, passwd));
-		try{
-			lc.login();
-		}
-		catch (LoginException e){
-			System.out.println("Recu "+ username + " et " + passwd + " mais, après vérif, ils sont incorrects");
-			throw e;
-		}
-		return bserver;
-	}	
+	public BarkerServerAuth logon(String username, String passwd) throws RemoteException, LoginException {
+		LoginContext lc = new LoginContext("BarkerServer", new RemoteCallbackHandler(username, passwd));
+		lc.login();
+		return new BarkerServerAuthImpl(lc, port, clientFactory, serverFactory);
+	}
+	
+	@Override
+	public BarkerServerAnon anon() throws RemoteException {
+		return new BarkerServerAnonImpl(port, clientFactory, serverFactory);
+	}
+	
+	@Override
+	public void addUser(String username, String password) throws LoginException, RemoteException {
+	    BarkerServer.addUser(username, password);
+    }
 
 }

@@ -1,9 +1,7 @@
 package barker;
 
-public interface Bark {
-	
-	String getMessage ();
-	
-	String getSender();
+import java.io.Serializable;
+
+public interface Bark extends Serializable{
 
 }
