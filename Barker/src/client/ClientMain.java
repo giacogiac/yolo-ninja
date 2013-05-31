@@ -15,6 +15,8 @@ import javax.imageio.ImageIO;
 import javax.security.auth.login.LoginException;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import security.module.RMISSLClientSocketFactory;
 
@@ -35,7 +37,20 @@ public class ClientMain {
 			e1.printStackTrace();
 		}
 		
-		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (UnsupportedLookAndFeelException e) {
+			System.out.println("Unable to load native look and feel");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		LoginWindow window = new LoginWindow(trayIcon);
 		
@@ -62,8 +77,6 @@ public class ClientMain {
 		window.setServer(conserver);
 		window.setVisible(true);
 		
-		
-		System.out.println("Fin Client");
 	}
 
 }

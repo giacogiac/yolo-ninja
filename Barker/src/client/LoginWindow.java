@@ -1,27 +1,20 @@
 package client;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
-import java.awt.TextArea;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.rmi.RemoteException;
 
-import javax.print.attribute.standard.Severity;
-import javax.security.auth.login.LoginException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import barker.BarkerServerAuth;
 import barker.ConnectionServer;
 
 public class LoginWindow extends JFrame {
@@ -39,14 +32,14 @@ public class LoginWindow extends JFrame {
 		this.setTitle(MainWindow.APPNAME);
 		this.setBackground(Color.blue);
 		
-		JLabel login = new JLabel("login : ");
+		JLabel login = new JLabel("  login : ");
 		loginField = new JTextField();
 		JPanel loginPanel = new JPanel(new GridLayout(1, 0));
 		loginPanel.add(login);
 		loginPanel.add(loginField);
 		this.add(loginPanel);
 		
-		JLabel mdp = new JLabel("mot de passe : ");
+		JLabel mdp = new JLabel("  mot de passe : ");
 		mdpField = new JPasswordField();
 		JPanel mdpPanel = new JPanel(new GridLayout(1, 0));
 		mdpPanel.add(mdp);
@@ -60,10 +53,39 @@ public class LoginWindow extends JFrame {
 		this.add(submit);
 		
 		JButton register = new JButton("S'inscrire");
+		final LoginWindow caller = this;
+		register.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//enabled
+				new SubscribeWindow(caller).setVisible(true);
+				
+			}
+		});
+		
 		JButton anon = new JButton("Connexion anonyme");
-		JPanel buttonPanel = new JPanel(new GridLayout(1, 0));
+		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(register);
 		buttonPanel.add(anon);
+		
+		final LoginWindow logWin = this;
+		
+		anon.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					logWin.dispose();
+					new MainWindow(null, conserver.anon(), getTrayIcon()).setVisible(true);
+				} catch (RemoteException e1) {
+					JOptionPane.showConfirmDialog(logWin, "Erreur : "+e1.getMessage(), 
+							MainWindow.APPNAME, JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		
 		this.add(buttonPanel);
 		

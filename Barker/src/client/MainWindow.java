@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import barker.BarkerServerAnon;
 import barker.BarkerServerAuth;
 
 public class MainWindow extends JFrame {
@@ -33,11 +34,22 @@ public class MainWindow extends JFrame {
 	private SystemTray tray;
 	private PopupMenu popup;
 	
-	public MainWindow(BarkerServerAuth server, TrayIcon trayIcon) {
+	public MainWindow(BarkerServerAuth server, BarkerServerAnon anon, final TrayIcon trayIcon) {
 		super();
 		this.popup = new PopupMenu();
+		MenuItem disconnectItem = new MenuItem("Se déconnecter");
 		MenuItem exitItem = new MenuItem("Quitter Barker");
 		MenuItem restoreItem = new MenuItem("Restaurer Barker");
+		
+		final MainWindow mainWin = this;
+		disconnectItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainWin.dispose();
+				new LoginWindow(trayIcon).setVisible(true);
+			}
+		});
 		
 		exitItem.addActionListener(new ActionListener() {	
 			@Override
@@ -47,12 +59,14 @@ public class MainWindow extends JFrame {
 		});
 		
 		restoreItem.addActionListener(new RestoreActionListener(this));
-		
+		popup.add(disconnectItem);
 		popup.add(exitItem);
 		popup.add(restoreItem);
 		
-		if (!SystemTray.isSupported())
+		if (!SystemTray.isSupported()) {
 			System.out.println("System tray is not supported");
+			this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		}
 		else {
 			trayIcon.setPopupMenu(popup);
 			tray = SystemTray.getSystemTray();
@@ -73,8 +87,10 @@ public class MainWindow extends JFrame {
 		
 		JPanel barkPanel = new JPanel(new GridLayout(0, 2));
 		JTextArea barkArea = new JTextArea();
+		barkArea.setLineWrap(true);
+		JScrollPane barkPane = new JScrollPane(barkArea);
 		JButton barkButton = new JButton("Bark");
-		barkPanel.add(barkArea);
+		barkPanel.add(barkPane);
 		barkPanel.add(barkButton);
 		this.add(barkPanel);
 		
