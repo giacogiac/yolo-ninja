@@ -7,6 +7,8 @@ import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +23,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import barker.BarkerServerAuth;
+
 public class MainWindow extends JFrame {
 	
 	public static final String APPNAME = "Barker";
@@ -29,11 +33,20 @@ public class MainWindow extends JFrame {
 	private SystemTray tray;
 	private PopupMenu popup;
 	
-	public MainWindow() {
+	public MainWindow(BarkerServerAuth server, TrayIcon trayIcon) {
 		super();
 		this.popup = new PopupMenu();
-		MenuItem exitItem = new MenuItem("Exit Barker");
-		MenuItem restoreItem = new MenuItem("Restore Barker");
+		MenuItem exitItem = new MenuItem("Quitter Barker");
+		MenuItem restoreItem = new MenuItem("Restaurer Barker");
+		
+		exitItem.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(NORMAL);			
+			}
+		});
+		
+		restoreItem.addActionListener(new RestoreActionListener(this));
 		
 		popup.add(exitItem);
 		popup.add(restoreItem);
@@ -41,13 +54,6 @@ public class MainWindow extends JFrame {
 		if (!SystemTray.isSupported())
 			System.out.println("System tray is not supported");
 		else {
-			BufferedImage picture = null;
-			try {
-				picture = ImageIO.read(new File("rsrc/barker.jpg"));
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			TrayIcon trayIcon = new TrayIcon(picture, APPNAME);
 			trayIcon.setPopupMenu(popup);
 			tray = SystemTray.getSystemTray();
 			try {
@@ -56,6 +62,7 @@ public class MainWindow extends JFrame {
 				e.printStackTrace();
 			}
 		}
+		
 		
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setTitle(APPNAME);
