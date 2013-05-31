@@ -3,6 +3,11 @@ package server;
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.ListIterator;
 
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
@@ -29,6 +34,26 @@ public class BarkerServerAuthImpl extends BarkerServerAnonImpl implements Barker
 		    System.out.println("Connexion anonyme");
 		}
 	}
+	
+	@Override
+    public List<Bark> myLastBarks(int nb) throws RemoteException {
+	    if (nb < 0)
+            throw new IllegalArgumentException ("nb < 0");
+        List<Bark> retlist = new ArrayList<Bark>();
+        if (nb == 0)
+            return retlist;
+        for (ListIterator<Bark> i = barks.listIterator(barks.size()); i.hasPrevious(); )
+        {
+            Bark b = i.previous();
+            if (b.getTopics().contains(user.getUsername().toLowerCase()) || b.getUsername().toLowerCase().equals(user.getUsername().toLowerCase()))
+            {
+                retlist.add(b);
+                if (retlist.size() == nb)
+                    break;
+            }
+        }
+        return retlist;
+    }
 
     @Override
     public void bark(String message) throws RemoteException {
@@ -36,6 +61,7 @@ public class BarkerServerAuthImpl extends BarkerServerAnonImpl implements Barker
             throw new RemoteException("User Logged out");
         if (lcontext == null)
             throw new RemoteException("Anonymous user");
+        sendBark(new SimpleBark(user.getUsername(), new Date(), message));
     }
     
     @Override
