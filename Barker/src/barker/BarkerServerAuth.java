@@ -11,5 +11,5 @@ public interface BarkerServerAuth extends BarkerServerAnon {
 	
 	public void sniff(String username) throws RemoteException;
 
-    List<Bark> myLastBarks(int nb) throws RemoteException;
+    public List<Bark> myLastBarks(int nb) throws RemoteException;
 }
