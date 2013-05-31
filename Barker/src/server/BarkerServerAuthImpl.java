@@ -45,7 +45,7 @@ public class BarkerServerAuthImpl extends BarkerServerAnonImpl implements Barker
         for (ListIterator<Bark> i = barks.listIterator(barks.size()); i.hasPrevious(); )
         {
             Bark b = i.previous();
-            if (b.getTopics().contains(user.getUsername().toLowerCase()) || b.getUsername().toLowerCase().equals(user.getUsername().toLowerCase()))
+            if (b.getRelated().contains(user.getUsername().toLowerCase()) || !Collections.disjoint(b.getTopics(), user.getSniffed()))
             {
                 retlist.add(b);
                 if (retlist.size() == nb)
