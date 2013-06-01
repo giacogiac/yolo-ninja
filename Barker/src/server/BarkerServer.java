@@ -24,7 +24,7 @@ import security.module.BarkerServerLoginModule;
 public class BarkerServer extends UnicastRemoteObject {
     private static final long serialVersionUID = 1L;
     
-    private static final int interval = 5000;
+    private static final int interval = 3600000; // 1heure
     
     protected static Map<String, Dog> users = new HashMap<String, Dog>();
     protected static List<Bark> barks = new ArrayList<Bark>();
@@ -64,14 +64,13 @@ public class BarkerServer extends UnicastRemoteObject {
         return retlist;
     }
     
-    private static void updateTT() {
-        Date prev = new Date(new Date().getTime() - interval);
-        for (int i = 0; i < trendings.size(); i++)
+    protected static void updateTT() {
+        Date when = new Date(new Date().getTime() - interval);
+        while(0 < trendings.size())
         {
-            if (trendings.get(i).getKey().before(prev)) {
-                trendings.remove(i);
-            }
-            i--;
+            if (trendings.get(0).getKey().after(when))
+                break;
+            trendings.remove(0);
         }
     }
     

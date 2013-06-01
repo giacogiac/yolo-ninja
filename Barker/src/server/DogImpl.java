@@ -1,7 +1,5 @@
 package server;
 
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,5 +26,10 @@ public class DogImpl implements Dog {
     public Set<String> getSniffed() {
         return sniffed;
     }
+	
+	@Override
+	public void sniff(String username) {
+	    sniffed.add(username);
+	}
 
 }

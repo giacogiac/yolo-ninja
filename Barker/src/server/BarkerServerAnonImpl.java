@@ -5,8 +5,13 @@ import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import barker.Bark;
 import barker.BarkerServerAnon;
@@ -31,7 +36,7 @@ public class BarkerServerAnonImpl extends BarkerServer implements BarkerServerAn
             start = 0;
         List<Bark> retlist = barks.subList(start, end);
         Collections.reverse(retlist);
-        return new ArrayList(retlist);
+        return new ArrayList<Bark>(retlist);
     }
 
     @Override
@@ -78,8 +83,24 @@ public class BarkerServerAnonImpl extends BarkerServer implements BarkerServerAn
 
     @Override
     public List<String> trendingTopics() throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        updateTT();
+        HashMap<String, Integer> tt = new HashMap<String, Integer>();
+        for (ListIterator<Entry<Date, Set<String>>> i = trendings.listIterator(); i.hasNext(); )
+        {
+            Entry<Date, Set<String>> e = i.next();
+            for(Iterator<String> j = e.getValue().iterator(); j.hasNext(); ) {
+                String s = j.next();
+                if(tt.containsKey(s)) {
+                    tt.put(s, new Integer(tt.get(s).intValue() + 1));
+                } else {
+                    tt.put(s, 1);
+                }
+            }
+        }
+        List<String> ttsorted = new ArrayList<String>(tt.keySet());
+        Collections.sort(ttsorted, new TrendingsComparator(tt));
+        return new ArrayList<String>(ttsorted.subList(0, 10));
+        
     }
 
     @Override

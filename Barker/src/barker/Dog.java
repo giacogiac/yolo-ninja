@@ -5,8 +5,10 @@ import java.util.Set;
 
 public interface Dog extends Serializable {
 
-    String getUsername();
+    public String getUsername();
 
-    Set<String> getSniffed();
+    public Set<String> getSniffed();
+
+    public void sniff(String username);
 
 }

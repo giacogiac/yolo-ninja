@@ -78,15 +78,17 @@ public class BarkerServerAuthImpl extends BarkerServerAnonImpl implements Barker
     }
 
     @Override
-    public void rebark() throws RemoteException {
-        // TODO Auto-generated method stub
-        
+    public void rebark(Bark bark) throws RemoteException {
+        sendBark(new ReBark(user.getUsername(), new Date(), bark));
     }
 
     @Override
     public void sniff(String username) throws RemoteException {
-        // TODO Auto-generated method stub
-        
+        if (loggedout)
+            throw new RemoteException("User Logged out");
+        if (lcontext == null)
+            throw new RemoteException("Anonymous user");
+        user.sniff(username);
     }
 
 }
