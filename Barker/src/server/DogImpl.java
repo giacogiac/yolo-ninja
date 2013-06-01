@@ -29,7 +29,7 @@ public class DogImpl implements Dog {
 	
 	@Override
 	public void sniff(String username) {
-	    sniffed.add(username);
+	    sniffed.add(username.toLowerCase());
 	}
 
 }
