@@ -99,6 +99,9 @@ public class BarkerServerAnonImpl extends BarkerServer implements BarkerServerAn
         }
         List<String> ttsorted = new ArrayList<String>(tt.keySet());
         Collections.sort(ttsorted, new TrendingsComparator(tt));
+        int boundary = 10;
+        if (boundary > ttsorted.size())
+            boundary = ttsorted.size();
         return new ArrayList<String>(ttsorted.subList(0, 10));
         
     }
