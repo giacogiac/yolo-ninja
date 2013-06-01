@@ -6,7 +6,6 @@ import java.rmi.registry.Registry;
 
 import javax.security.auth.login.LoginException;
 
-import security.module.BarkerServerLoginModule;
 import security.module.RMISSLClientSocketFactory;
 import security.module.RMISSLServerSocketFactory;
 
@@ -31,6 +30,7 @@ public class ServerMain {
 		try {
 			BarkerServerAuthImpl.addUser("BabouChot", "passw");
 			BarkerServerAuthImpl.addUser("giaco", "gpassw");
+			
 		} catch (LoginException e) {
 			e.printStackTrace();
 		}

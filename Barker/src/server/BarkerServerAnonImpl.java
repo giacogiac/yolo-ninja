@@ -31,7 +31,7 @@ public class BarkerServerAnonImpl extends BarkerServer implements BarkerServerAn
             start = 0;
         List<Bark> retlist = barks.subList(start, end);
         Collections.reverse(retlist);
-        return retlist;
+        return new ArrayList(retlist);
     }
 
     @Override

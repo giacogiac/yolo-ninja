@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-public interface Bark extends Serializable{
+public interface Bark extends Serializable {
 
     String getUsername();
 
