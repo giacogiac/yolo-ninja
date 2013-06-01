@@ -36,6 +36,10 @@ public class BarkerServerAuthImpl extends BarkerServerAnonImpl implements Barker
 	
 	@Override
     public List<Bark> myLastBarks(int nb) throws RemoteException {
+	    if (loggedout)
+            throw new RemoteException("User Logged out");
+        if (lcontext == null)
+            throw new RemoteException("Anonymous user");
 	    if (nb < 0)
             throw new IllegalArgumentException ("nb < 0");
         List<Bark> retlist = new ArrayList<Bark>();
@@ -78,6 +82,10 @@ public class BarkerServerAuthImpl extends BarkerServerAnonImpl implements Barker
 
     @Override
     public void rebark(Bark bark) throws RemoteException {
+        if (loggedout)
+            throw new RemoteException("User Logged out");
+        if (lcontext == null)
+            throw new RemoteException("Anonymous user");
         sendBark(new ReBark(user.getUsername(), new Date(), bark));
     }
 

@@ -3,6 +3,7 @@ package server;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Date;
 
 import javax.security.auth.login.LoginException;
 
@@ -16,6 +17,8 @@ public class ServerMain {
 
 	static public void main(String[] args) {
 		System.out.println("Lancement Serveur Barker...");
+		
+		new SimpleBark("test", new Date(), "test test #test #lol pppppppppppppppppppppppppppppppppp");
 		
 		// sécurité
 		System.setProperty("javax.net.ssl.keyStore", "barker.ks");

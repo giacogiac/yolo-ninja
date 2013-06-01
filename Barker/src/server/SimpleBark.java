@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.twitter.Extractor;
+
 import barker.Bark;
 
 public class SimpleBark implements Bark {
@@ -21,20 +23,9 @@ public class SimpleBark implements Bark {
 	    this.username = username;
 	    this.sendtime = sendtime;
 		this.message = message;
-		
-		topics = new HashSet<String>();
-		Pattern patternHastag = Pattern.compile("(.*?)*(^|[^\\p{L}\\p{Digit}_])#([\\p{L}\\p{Digit}_]+)([^\\p{L}\\p{Digit}_#]|$).*?");
-		Matcher mHastag = patternHastag.matcher(message);
-		while(mHastag.find()) {
-			topics.add(mHastag.group(3).toLowerCase());
-		}
-		
-		related = new HashSet<String>();
-		Pattern patternAt = Pattern.compile("(.*?)*(^|[^\\p{L}\\p{Digit}_#])@([\\p{L}\\p{Digit}_]+)([^\\p{L}\\p{Digit}_@]|$).*?");
-		Matcher mAt = patternAt.matcher(message);
-		while(mAt.find()) {
-			related.add(mAt.group(3).toLowerCase());
-		}
+		Extractor ex = new Extractor();
+		topics = new HashSet<String>(ex.extractHashtags(message));
+		related = new HashSet<String>(ex.extractMentionedScreennames(message));
 	}
 	
 	@Override

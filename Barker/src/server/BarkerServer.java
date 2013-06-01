@@ -47,7 +47,7 @@ public class BarkerServer extends UnicastRemoteObject {
     }
     
     protected static void sendBark(Bark bark) {
-        trendings.add(new SimpleEntry<Date, Set<String>>(new Date(), bark.getTopics()));
+        trendings.add(new SimpleEntry<Date, Set<String>>(bark.getSendtime(), bark.getTopics()));
         barks.add(bark);
     }
     
