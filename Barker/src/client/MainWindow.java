@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -121,7 +122,7 @@ public class MainWindow extends JFrame {
 		
 		
 		
-		JTabbedPane tabPane = new JTabbedPane();
+		final JTabbedPane tabPane = new JTabbedPane();
 		
 		BarkRenderer renderer = new BarkRenderer();
 		
@@ -138,19 +139,19 @@ public class MainWindow extends JFrame {
 		lastFromMeList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
 		trendingTopics = new JList<String>();
-		JPopupMenu topicPopup = new JPopupMenu();
-		JMenuItem seeTopic = new JMenuItem("voir le topic");
-		topicPopup.add(seeTopic);
-		trendingTopics.add(topicPopup);
-		
 
 		
 		this.refreshLists();
 		
-		tabPane.add("Tous les barks", new JScrollPane(allBarksList));
-		tabPane.add("Fil d'actualité", new JScrollPane(barkList));
-		tabPane.add("Mes barks", new JScrollPane(lastFromMeList));
+		List<JList<BarkPanel>> tabLists = new ArrayList<>();
+		
 		tabPane.add("Topics", new JScrollPane(trendingTopics));
+		tabPane.add("Tous les barks", new JScrollPane(allBarksList));
+		tabLists.add(allBarksList);
+		tabPane.add("Fil d'actualité", new JScrollPane(barkList));
+		tabLists.add(barkList);
+		tabPane.add("Mes barks", new JScrollPane(lastFromMeList));
+		tabLists.add(lastFromMeList);
 		
 		
 		this.add(tabPane);
@@ -171,9 +172,14 @@ public class MainWindow extends JFrame {
 		}
 		
 		JPanel buttonPanel = new JPanel();
-		JButton sniff = new JButton("sniff");
+		JButton sniff = new JButton("sniff");		
+		sniff.addActionListener(new ListActionListener(this, tabPane, tabLists, auth));
+		
 		JButton rebark = new JButton("rebark");
+		rebark.addActionListener(new ListActionListener(this, tabPane, tabLists, auth));
+		
 		JButton displayBarks = new JButton("afficher les barks");
+		displayBarks.addActionListener(new ListActionListener(this, tabPane, tabLists, auth));
 		
 		JButton refresh = new JButton("Rafraichir");
 		refresh.addActionListener(new ActionListener() {
@@ -184,7 +190,8 @@ public class MainWindow extends JFrame {
 				
 			}
 		});
-				
+		
+		
 		buttonPanel.add(sniff);
 		buttonPanel.add(rebark);
 		buttonPanel.add(displayBarks);
