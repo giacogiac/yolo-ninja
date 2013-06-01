@@ -4,7 +4,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
@@ -45,7 +44,7 @@ public class BarkerServerAuthImpl extends BarkerServerAnonImpl implements Barker
         for (ListIterator<Bark> i = barks.listIterator(barks.size()); i.hasPrevious(); )
         {
             Bark b = i.previous();
-            if (b.getRelated().contains(user.getUsername().toLowerCase()) || !Collections.disjoint(b.getTopics(), user.getSniffed()))
+            if (b.getRelated().contains(user.getUsername().toLowerCase()) || user.getSniffed().contains(b.getUsername().toLowerCase()))
             {
                 retlist.add(b);
                 if (retlist.size() == nb)
