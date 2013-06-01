@@ -37,7 +37,6 @@ public class ListActionListener implements ActionListener {
 				for (int i = 0; i < barkPanels.size(); ++i) {
 					switch (source.getText()) {
 					case "sniff":
-						System.out.println("plop");
 						try {
 							auth.sniff(barkPanels.get(i).getBark().getUsername());
 						} catch (RemoteException e1) {
@@ -46,7 +45,7 @@ public class ListActionListener implements ActionListener {
 						break;
 					case "rebark":
 						try {
-							auth.rebark();
+							auth.rebark(barkPanels.get(i).getBark());
 						} catch (RemoteException e1) {
 							e1.printStackTrace();
 						}

@@ -248,9 +248,10 @@ public class MainWindow extends JFrame {
 			JOptionPane.showConfirmDialog(caller, "Vous n'avez aucun bark dans votre liste", 
 					MainWindow.APPNAME, JOptionPane.CLOSED_OPTION, JOptionPane.WARNING_MESSAGE);
 		else
-			for (Bark bark : myLastBarks)
+			for (Bark bark : myLastBarks) {
 				myLastBarksModel.addElement(new BarkPanel(bark));
-		
+				System.out.println("plop");
+			}
 		if (lastFromMe != null) {
 			for (Bark bark : lastFromMe)
 				lastFromMeModel.addElement(new BarkPanel(bark));
