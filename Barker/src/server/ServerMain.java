@@ -30,7 +30,6 @@ public class ServerMain {
 		try {
 			BarkerServerAuthImpl.addUser("BabouChot", "passw");
 			BarkerServerAuthImpl.addUser("giaco", "gpassw");
-			
 		} catch (LoginException e) {
 			e.printStackTrace();
 		}
