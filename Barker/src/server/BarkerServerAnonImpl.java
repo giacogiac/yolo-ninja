@@ -102,7 +102,7 @@ public class BarkerServerAnonImpl extends BarkerServer implements BarkerServerAn
         int boundary = 10;
         if (boundary > ttsorted.size())
             boundary = ttsorted.size();
-        return new ArrayList<String>(ttsorted.subList(0, 10));
+        return new ArrayList<String>(ttsorted.subList(0, boundary));
         
     }
 
