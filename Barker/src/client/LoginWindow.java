@@ -77,7 +77,7 @@ public class LoginWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					logWin.dispose();
-					new MainWindow(null, conserver.anon(), getTrayIcon()).setVisible(true);
+					new MainWindow(conserver, null, conserver.anon(), getTrayIcon(), loginField.getText()).setVisible(true);
 				} catch (RemoteException e1) {
 					JOptionPane.showConfirmDialog(logWin, "Erreur : "+e1.getMessage(), 
 							MainWindow.APPNAME, JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);

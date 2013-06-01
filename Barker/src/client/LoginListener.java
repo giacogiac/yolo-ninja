@@ -27,7 +27,8 @@ public class LoginListener implements ActionListener {
 					new String(loginWindow.getMdpField().getPassword()));
 			System.out.println("On a recu une ref vers serveur distant, et on a été authentifié ");
 			loginWindow.dispose();
-			MainWindow mainWin = new MainWindow(server, loginWindow.getServer().anon(), loginWindow.getTrayIcon());
+			MainWindow mainWin = new MainWindow(loginWindow.getServer(), server, loginWindow.getServer().anon(), 
+					loginWindow.getTrayIcon(), loginWindow.getLoginField().getText());
 			mainWin.setVisible(true);
 		} catch (RemoteException | LoginException e) {
 			JOptionPane.showConfirmDialog(loginWindow, "Identifiants incorrects: " + e.getMessage(),

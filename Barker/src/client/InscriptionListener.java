@@ -24,10 +24,10 @@ public class InscriptionListener implements ActionListener {
 		String mdp = window.getMdp();
 		String confirm = window.getConfirm();
 		ConnectionServer conserver = window.getServer();
-		if (login.equals(null) || login.equals(""))
+		if (login == null || login.equals(""))
 			JOptionPane.showConfirmDialog(window, "Inscription impossible : \nveuillez renseigner un login",
 					MainWindow.APPNAME, JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
-		else if (mdp.equals(null) || mdp.equals(""))
+		else if (mdp == null || mdp.equals(""))
 			JOptionPane.showConfirmDialog(window, "Inscription impossible : \nveuillez renseigner un mot de passe", 
 					MainWindow.APPNAME, JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
 		else if (! mdp.equals(confirm)) 
@@ -39,14 +39,11 @@ public class InscriptionListener implements ActionListener {
 				JOptionPane.showConfirmDialog(window, "Bienvenue sur Barker "+login+" !\nVotre inscription est terminée.", 
 						MainWindow.APPNAME, JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
 				window.dispose();
-			} catch (LoginException e1) {
+			} catch (LoginException | RemoteException e1) {
 				JOptionPane.showConfirmDialog(window, "Inscription impossible : "+e1.getMessage(), 
 						MainWindow.APPNAME, JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
 				e1.printStackTrace();
-			} catch (RemoteException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			} 
 		}
 
 	}
