@@ -44,6 +44,8 @@ public class MainWindow extends JFrame {
 	
 	public static final String APPNAME = "Barker";
 	
+	private DisplayFromTopicOrUser displayTopicUser;
+	private JList<BarkPanel> topicOrUserList;
 	private JList<BarkPanel> allBarksList;
 	private JList<BarkPanel> barkList;
 	private JList<BarkPanel> lastFromMeList;
@@ -138,14 +140,23 @@ public class MainWindow extends JFrame {
 		lastFromMeList.setCellRenderer(renderer);
 		lastFromMeList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
+		topicOrUserList = new JList<BarkPanel>();
+		topicOrUserList.setCellRenderer(renderer);
+		topicOrUserList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
+		
 		trendingTopics = new JList<String>();
 
+		displayTopicUser = new DisplayFromTopicOrUser(this);
 		
 		this.refreshLists();
 		
 		List<JList<BarkPanel>> tabLists = new ArrayList<>();
 		
 		tabPane.add("Topics", new JScrollPane(trendingTopics));
+
+		tabPane.add("Afficher les barks", displayTopicUser);
+		
 		tabPane.add("Tous les barks", new JScrollPane(allBarksList));
 		tabLists.add(allBarksList);
 		
@@ -222,10 +233,6 @@ public class MainWindow extends JFrame {
 	public BarkerServerAuth getAuth() {
 		return auth;
 	}
-	
-	public JTextArea getBarkArea() {
-		return barkArea;
-	}
 
 	public void refreshLists () {
 		
@@ -239,7 +246,6 @@ public class MainWindow extends JFrame {
 				topics = anon.trendingTopics();
 				if (! anonSession) {
 					myLastBarks = auth.myLastBarks(50);
-					System.out.println(myLastBarks);
 					lastFromMe = auth.lastBarksFrom(50, username);
 				}
 			} catch (RemoteException e1) {
@@ -279,6 +285,24 @@ public class MainWindow extends JFrame {
 			lastFromMeList.setModel(lastFromMeModel);
 		}
 		trendingTopics.setModel(topicsModel);
+		
+		//displayTopicUser.refresh();
+	}
+
+	public DisplayFromTopicOrUser getDisplayTopicUser() {
+		return displayTopicUser;
+	}
+
+	public JList<String> getTrendingTopics() {
+		return trendingTopics;
+	}
+
+	public JTextArea getBarkArea() {
+		return barkArea;
+	}
+
+	public JList<BarkPanel> getTopicOrUserList() {
+		return topicOrUserList;
 	}
 
 }

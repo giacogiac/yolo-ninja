@@ -30,10 +30,10 @@ public class ListActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (tabPane.getSelectedIndex() > 0) {
-			JList<BarkPanel> listBarkPanel = tabLists.get(tabPane.getSelectedIndex()-1);
+			JList<BarkPanel> listBarkPanel = tabLists.get(tabPane.getSelectedIndex()-2);
 			List<BarkPanel> barkPanels = listBarkPanel.getSelectedValuesList();
+			JButton source = (JButton) e.getSource();
 			if (barkPanels.size() > 0) {
-				JButton source = (JButton) e.getSource();
 				for (int i = 0; i < barkPanels.size(); ++i) {
 					switch (source.getText()) {
 					case "sniff":
@@ -51,7 +51,8 @@ public class ListActionListener implements ActionListener {
 						}
 						break;
 					case "afficher les barks":
-						//TODO
+						mainWin.getDisplayTopicUser().displayFromUser(barkPanels.get(i).getBark().getUsername());
+						tabPane.setSelectedIndex(1);
 						break;
 					default:
 						break;
@@ -59,6 +60,11 @@ public class ListActionListener implements ActionListener {
 				}
 				mainWin.refreshLists();
 			}
+		}
+		else if (((JButton)e.getSource()).getText().equals("afficher les barks")) {
+			String topic = mainWin.getTrendingTopics().getSelectedValue();
+			mainWin.getDisplayTopicUser().displayAbout(topic);
+			tabPane.setSelectedIndex(1);
 		}
 	}
 
