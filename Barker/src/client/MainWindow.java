@@ -148,11 +148,13 @@ public class MainWindow extends JFrame {
 		tabPane.add("Topics", new JScrollPane(trendingTopics));
 		tabPane.add("Tous les barks", new JScrollPane(allBarksList));
 		tabLists.add(allBarksList);
-		tabPane.add("Fil d'actualité", new JScrollPane(barkList));
-		tabLists.add(barkList);
-		tabPane.add("Mes barks", new JScrollPane(lastFromMeList));
-		tabLists.add(lastFromMeList);
 		
+		if (!anonSession) {
+			tabPane.add("Fil d'actualité", new JScrollPane(barkList));
+			tabLists.add(barkList);
+			tabPane.add("Mes barks", new JScrollPane(lastFromMeList));
+			tabLists.add(lastFromMeList);
+		}
 		
 		this.add(tabPane);
 		
@@ -197,6 +199,11 @@ public class MainWindow extends JFrame {
 		buttonPanel.add(displayBarks);
 		buttonPanel.add(refresh);
 		
+		if (anonSession) {
+			sniff.setEnabled(false);
+			rebark.setEnabled(false);
+		}
+		
 		this.add(buttonPanel);
 		
 		this.add(barkPanel);
@@ -232,6 +239,7 @@ public class MainWindow extends JFrame {
 				topics = anon.trendingTopics();
 				if (! anonSession) {
 					myLastBarks = auth.myLastBarks(50);
+					System.out.println(myLastBarks);
 					lastFromMe = auth.lastBarksFrom(50, username);
 				}
 			} catch (RemoteException e1) {
@@ -244,13 +252,12 @@ public class MainWindow extends JFrame {
 		DefaultListModel<BarkPanel> myLastBarksModel = new DefaultListModel<BarkPanel>();
 		DefaultListModel<BarkPanel> lastFromMeModel = new DefaultListModel<BarkPanel>();
 		DefaultListModel<String> topicsModel = new DefaultListModel<String>();
-		if (myLastBarks == null)
+		if (myLastBarks == null && !anonSession)
 			JOptionPane.showConfirmDialog(caller, "Vous n'avez aucun bark dans votre liste", 
 					MainWindow.APPNAME, JOptionPane.CLOSED_OPTION, JOptionPane.WARNING_MESSAGE);
-		else
+		else if (myLastBarks != null)
 			for (Bark bark : myLastBarks) {
 				myLastBarksModel.addElement(new BarkPanel(bark));
-				System.out.println("plop");
 			}
 		if (lastFromMe != null) {
 			for (Bark bark : lastFromMe)
@@ -267,8 +274,10 @@ public class MainWindow extends JFrame {
 		
 		
 		allBarksList.setModel(allBarksModel);
-		barkList.setModel(myLastBarksModel);
-		lastFromMeList.setModel(lastFromMeModel);
+		if (!anonSession) {
+			barkList.setModel(myLastBarksModel);
+			lastFromMeList.setModel(lastFromMeModel);
+		}
 		trendingTopics.setModel(topicsModel);
 	}
 
