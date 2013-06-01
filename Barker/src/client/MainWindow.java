@@ -228,7 +228,7 @@ public class MainWindow extends JFrame {
 		List<String> topics = null;
 		final MainWindow caller = this;
 			try {
-				//TODO allBarks = anon.lastBarks(50);
+				allBarks = anon.lastBarks(50);
 				topics = anon.trendingTopics();
 				if (! anonSession) {
 					myLastBarks = auth.myLastBarks(50);
