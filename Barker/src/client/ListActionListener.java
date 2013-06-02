@@ -9,8 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JTabbedPane;
 
-import security.module.BarkerPrincipal;
-
 import barker.BarkerServerAuth;
 
 public class ListActionListener implements ActionListener {

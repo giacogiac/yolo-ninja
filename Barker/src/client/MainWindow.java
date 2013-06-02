@@ -2,34 +2,23 @@ package client;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -41,8 +30,9 @@ import barker.Bark;
 import barker.ConnectionServer;
 
 public class MainWindow extends JFrame {
-	
-	public static final String APPNAME = "Barker";
+    private static final long serialVersionUID = 1L;
+
+    public static final String APPNAME = "Barker";
 	
 	private DisplayFromTopicOrUser displayTopicUser;
 	private JList<BarkPanel> topicOrUserList;

@@ -3,14 +3,10 @@ package client;
 import java.awt.Color;
 import java.awt.Component;
 
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 public class BarkRenderer implements ListCellRenderer<BarkPanel> {
-
-	private DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
 
 	@Override
 	public Component getListCellRendererComponent(
@@ -24,8 +20,6 @@ public class BarkRenderer implements ListCellRenderer<BarkPanel> {
 	        value.setBackground(Color.CYAN);
 		else 
 			value.setBackground(Color.WHITE);
-		
-		JLabel label = new JLabel(value.toString());
 		
 		return value;
 	}
