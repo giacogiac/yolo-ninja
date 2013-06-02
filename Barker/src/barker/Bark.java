@@ -5,8 +5,12 @@ import java.util.Date;
 import java.util.Set;
 
 public interface Bark extends Serializable {
+    
+    String getType();
 
     String getUsername();
+    
+    String getOriginalUsername();
 
     Date getSendtime();
 

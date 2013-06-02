@@ -18,8 +18,9 @@ import javax.swing.JTextField;
 import barker.ConnectionServer;
 
 public class LoginWindow extends JFrame {
-	
-	private ConnectionServer conserver;
+    private static final long serialVersionUID = 1L;
+    
+    private ConnectionServer conserver;
 	private TrayIcon trayIcon;
 	private JTextField loginField;
 	private JPasswordField mdpField;

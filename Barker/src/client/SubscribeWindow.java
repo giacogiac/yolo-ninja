@@ -14,8 +14,9 @@ import javax.swing.JTextField;
 import barker.ConnectionServer;
 
 public class SubscribeWindow extends JFrame {
-	
-	private JTextField loginField;
+    private static final long serialVersionUID = 1L;
+    
+    private JTextField loginField;
 	private JPasswordField mdpField;
 	private JPasswordField confirmField;
 	private LoginWindow logWin;

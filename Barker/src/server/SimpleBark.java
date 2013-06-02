@@ -3,8 +3,6 @@ package server;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.twitter.Extractor;
 
@@ -52,5 +50,15 @@ public class SimpleBark implements Bark {
 	public Set<String> getRelated() {
 		return related;
 	}
+
+    @Override
+    public String getType() {
+        return "simple";
+    }
+
+    @Override
+    public String getOriginalUsername() {
+        return null;
+    }
 
 }

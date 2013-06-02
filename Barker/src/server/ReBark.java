@@ -9,12 +9,10 @@ public class ReBark implements Bark {
     private static final long serialVersionUID = 1L;
     
     private String username;
-    private Date sendtime;
     private Bark bark;
     
-    public ReBark(String username, Date sendtime, Bark bark) {
+    public ReBark(String username, Bark bark) {
         this.username = username;
-        this.sendtime = sendtime;
         this.bark = bark;
     }
     
@@ -25,7 +23,7 @@ public class ReBark implements Bark {
 
     @Override
     public Date getSendtime() {
-        return sendtime;
+        return bark.getSendtime();
     }
 
     @Override
@@ -41,6 +39,16 @@ public class ReBark implements Bark {
     @Override
     public Set<String> getRelated() {
         return bark.getRelated();
+    }
+
+    @Override
+    public String getType() {
+        return "rebark";
+    }
+
+    @Override
+    public String getOriginalUsername() {
+        return bark.getUsername();
     }
 
 }

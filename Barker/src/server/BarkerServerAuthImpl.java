@@ -86,7 +86,7 @@ public class BarkerServerAuthImpl extends BarkerServerAnonImpl implements Barker
             throw new RemoteException("User Logged out");
         if (lcontext == null)
             throw new RemoteException("Anonymous user");
-        sendBark(new ReBark(user.getUsername(), new Date(), bark));
+        sendBark(new ReBark(user.getUsername(), bark));
     }
 
     @Override

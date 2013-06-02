@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
 import javax.security.auth.login.LoginException;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import barker.ConnectionServer;

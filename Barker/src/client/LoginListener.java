@@ -5,11 +5,9 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
 import javax.security.auth.login.LoginException;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import barker.BarkerServerAuth;
-import barker.ConnectionServer;
 
 public class LoginListener implements ActionListener {
 

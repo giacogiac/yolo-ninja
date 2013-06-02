@@ -4,14 +4,14 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JScrollPane;
 
 import barker.Bark;
 
 public class DisplayFromTopicOrUser extends JScrollPane {
-	
-	private MainWindow mainWin;
+    private static final long serialVersionUID = 1L;
+    
+    private MainWindow mainWin;
 	private boolean isTopic;
 	private String name;
 	

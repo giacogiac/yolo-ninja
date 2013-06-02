@@ -1,7 +1,5 @@
 package client;
 
-import java.awt.AWTException;
-import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,15 +10,12 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import javax.imageio.ImageIO;
-import javax.security.auth.login.LoginException;
-import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import security.module.RMISSLClientSocketFactory;
 
-import barker.BarkerServerAuth;
 import barker.ConnectionServer;
 
 public class ClientMain {

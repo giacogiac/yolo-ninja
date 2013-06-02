@@ -8,8 +8,9 @@ import javax.swing.JPanel;
 import barker.Bark;
 
 public class BarkPanel extends JPanel {
-	
-	private JLabel userLabel;
+    private static final long serialVersionUID = 1L;
+    
+    private JLabel userLabel;
 	private JLabel messageLabel;
 	private Bark bark;
 
