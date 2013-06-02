@@ -276,7 +276,7 @@ public class MainWindow extends JFrame {
 		}
 		if (topics != null) {
 			for (String topic : topics)
-				topicsModel.addElement(topic);
+				topicsModel.addElement("#"+topic);
 		}
 		
 		

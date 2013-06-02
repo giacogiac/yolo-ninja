@@ -53,7 +53,7 @@ public class ListActionListener implements ActionListener {
 					case "afficher les barks":
 						String username = barkPanels.get(i).getBark().getUsername();
 						mainWin.getDisplayTopicUser().displayFromUser(username);
-						setTabName("Barks de "+username);
+						setTabName("@"+username);
 						tabPane.setSelectedIndex(1);
 						return;
 					default:
@@ -65,9 +65,9 @@ public class ListActionListener implements ActionListener {
 		}
 		else if (((JButton)e.getSource()).getText().equals("afficher les barks")) {
 			String topic = mainWin.getTrendingTopics().getSelectedValue();
-			mainWin.getDisplayTopicUser().displayAbout(topic);
+			mainWin.getDisplayTopicUser().displayAbout(topic.substring(1));
 			tabPane.setSelectedIndex(1);
-			setTabName("Barks à propos de "+topic);
+			setTabName(topic);
 		}
 	}
 	
