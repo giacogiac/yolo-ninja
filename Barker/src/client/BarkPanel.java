@@ -17,7 +17,11 @@ public class BarkPanel extends JPanel {
 	public BarkPanel(Bark bark) {
 		this.bark = bark;
 		this.setLayout(new GridLayout(0, 1));
-		userLabel = new JLabel(bark.getUsername() + " a envoyé le "+bark.getSendtime()+" : ");
+		if (bark.getOriginalUsername() == null)
+			userLabel = new JLabel("@"+bark.getUsername() + " a envoyé le "+bark.getSendtime()+" : ");
+		else 
+			userLabel = new JLabel("@"+bark.getUsername()+ " a rebarké de @"+bark.getOriginalUsername() +" le "
+					+bark.getSendtime());
 		userLabel.setFont(new Font("sender", Font.ITALIC, 10));
 		messageLabel = new JLabel(bark.getMessage());
 		this.add(userLabel);
