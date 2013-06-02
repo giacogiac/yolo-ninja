@@ -16,6 +16,7 @@ public class DisplayFromTopicOrUser extends JScrollPane {
 	private String name;
 	
 	public DisplayFromTopicOrUser(MainWindow window) {
+		super(window.getTopicOrUserList());
 		this.mainWin = window;
 		this.isTopic = true;
 		this.name = "";

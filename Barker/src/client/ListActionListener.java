@@ -30,7 +30,7 @@ public class ListActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (tabPane.getSelectedIndex() > 0) {
-			JList<BarkPanel> listBarkPanel = tabLists.get(tabPane.getSelectedIndex()-2);
+			JList<BarkPanel> listBarkPanel = tabLists.get(tabPane.getSelectedIndex()-1);
 			List<BarkPanel> barkPanels = listBarkPanel.getSelectedValuesList();
 			JButton source = (JButton) e.getSource();
 			if (barkPanels.size() > 0) {
@@ -51,9 +51,11 @@ public class ListActionListener implements ActionListener {
 						}
 						break;
 					case "afficher les barks":
-						mainWin.getDisplayTopicUser().displayFromUser(barkPanels.get(i).getBark().getUsername());
+						String username = barkPanels.get(i).getBark().getUsername();
+						mainWin.getDisplayTopicUser().displayFromUser(username);
+						setTabName("Barks de "+username);
 						tabPane.setSelectedIndex(1);
-						break;
+						return;
 					default:
 						break;
 					}
@@ -65,7 +67,12 @@ public class ListActionListener implements ActionListener {
 			String topic = mainWin.getTrendingTopics().getSelectedValue();
 			mainWin.getDisplayTopicUser().displayAbout(topic);
 			tabPane.setSelectedIndex(1);
+			setTabName("Barks à propos de "+topic);
 		}
+	}
+	
+	public void setTabName(String name) {
+		tabPane.setTitleAt(1, name);
 	}
 
 }

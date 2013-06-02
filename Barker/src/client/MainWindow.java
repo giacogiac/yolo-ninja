@@ -154,8 +154,9 @@ public class MainWindow extends JFrame {
 		List<JList<BarkPanel>> tabLists = new ArrayList<>();
 		
 		tabPane.add("Topics", new JScrollPane(trendingTopics));
-
+		
 		tabPane.add("Afficher les barks", displayTopicUser);
+		tabLists.add(topicOrUserList);
 		
 		tabPane.add("Tous les barks", new JScrollPane(allBarksList));
 		tabLists.add(allBarksList);
@@ -286,7 +287,7 @@ public class MainWindow extends JFrame {
 		}
 		trendingTopics.setModel(topicsModel);
 		
-		//displayTopicUser.refresh();
+		displayTopicUser.refresh();
 	}
 
 	public DisplayFromTopicOrUser getDisplayTopicUser() {
