@@ -13,7 +13,6 @@ import javax.security.auth.login.LoginException;
 
 import barker.Bark;
 import barker.BarkerServerAuth;
-import barker.Dog;
 
 public class BarkerServerAuthImpl extends BarkerServerAnonImpl implements BarkerServerAuth {
 	private static final long serialVersionUID = -7666130486088047448L;

@@ -17,7 +17,6 @@ import java.util.Set;
 import javax.security.auth.login.LoginException;
 
 import barker.Bark;
-import barker.Dog;
 
 import security.module.BarkerServerLoginModule;
 
@@ -37,7 +36,7 @@ public class BarkerServer extends UnicastRemoteObject {
 
     protected static void addUser(String username, String password) throws LoginException {
         BarkerServerLoginModule.addUser(username, password);
-        users.put(username.toLowerCase(), new DogImpl(username));
+        users.put(username.toLowerCase(), new Dog(username));
     }
     
     protected static void deleteUser(String username) throws LoginException {

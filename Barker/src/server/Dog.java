@@ -3,31 +3,25 @@ package server;
 import java.util.HashSet;
 import java.util.Set;
 
-import barker.Dog;
-
-public class DogImpl implements Dog {
-	private static final long serialVersionUID = -5065478789716075630L;
+public class Dog {
 	
 	private String username;
 	private Set<String> sniffed;
 	
-	protected DogImpl(String username) {
+	protected Dog(String username) {
 		super();
 		this.username = username;
 		this.sniffed = new HashSet<String>();
 	}
 
-	@Override
 	public String getUsername() {
 		return username;
 	}
 	
-	@Override
     public Set<String> getSniffed() {
         return sniffed;
     }
 	
-	@Override
 	public void sniff(String username) {
 	    sniffed.add(username.toLowerCase());
 	}
